@@ -80,7 +80,7 @@ void setup(){
 
   hub.mqtt.config(mqtt_server, mqtt_port, mqtt_user, mqtt_password);
   
-  hub.setVersion("Srvrn1/experiment@1.1");
+  hub.setVersion("Srvrn1/Lipa@1.0");
   hub.onUnix(onunix);
   hub.onBuild(build);               // подключаем билдер
   hub.begin();   
