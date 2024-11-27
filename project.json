@@ -12,15 +12,6 @@
           "offset": 0
         }
       ]
-    },
-    {
-      "chipFamily": "ESP32",
-      "parts": [
-        {
-          "path": "https://raw.githubusercontent.com/GyverLibs/GyverHub-example/main/bin/firmware.bin",
-          "offset": 0
-        }
-      ]
     }
   ]
 }
