@@ -60,6 +60,7 @@ void sw_f(){                      //функция вкл-выкл диода
 
 void build(gh::Builder& b){
   b.Time_(F("time"), &time_sist).label(F("время")).color(gh::Colors::Mint);
+  b.Display("Some\ntext");
   if(b.beginRow()){
     //b.Time_(F("time"), &time_sist).label(F("время")).color(gh::Colors::Mint);
     b.Time_(F("t_on"), &t_on).label(F("включить")).color(gh::Colors::Red).click();
@@ -80,7 +81,7 @@ void setup(){
 
   hub.mqtt.config(mqtt_server, mqtt_port, mqtt_user, mqtt_password);
   
-  hub.setVersion("Srvrn1/Lipa@1.0");
+  hub.setVersion("Srvrn1/Lipa@1.1");
   hub.onUnix(onunix);
   hub.onBuild(build);               // подключаем билдер
   hub.begin();   
