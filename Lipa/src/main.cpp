@@ -60,7 +60,7 @@ void sw_f(){                      //функция вкл-выкл диода
 
 void build(gh::Builder& b){
   b.Time_(F("time"), &time_sist).label(F("время")).color(gh::Colors::Mint);
-  b.Display("Версия  1.2");
+  b.Display("Версия  1.1");
   if(b.beginRow()){
     //b.Time_(F("time"), &time_sist).label(F("время")).color(gh::Colors::Mint);
     b.Time_(F("t_on"), &t_on).label(F("включить")).color(gh::Colors::Red).click();
