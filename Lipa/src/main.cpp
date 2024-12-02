@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include <GyverHub.h>
+#include <AutoOTA.h>
 
 #define led 2
 
@@ -13,6 +14,8 @@ uint8_t sw_stat;            //положение переключателя
 
 GyverHub hub("MyDev", "Липовка", "f0ad");  // имя сети, имя устройства, иконка
 WiFiClient espClient;
+
+AutoOTA ota("v1.2", "Srvrn1/Lipa");
 
 
 ///   WI-FI  ///////////
@@ -83,8 +86,13 @@ void setup(){
   setup_wifi();
 
   hub.mqtt.config(mqtt_server, mqtt_port, mqtt_user, mqtt_password);
-  
-  hub.setVersion("Srvrn1/Lipa@v1.2");
+      String ver, notes;
+    if (ota.checkUpdate(&ver, &notes)) {
+        Serial.println(ver);
+        Serial.println(notes);
+        ota.update();
+    }
+ // hub.setVersion("Srvrn1/Lipa@v1.2");
   
   hub.onUnix(onunix);
   hub.onBuild(build);               // подключаем билдер
@@ -94,6 +102,9 @@ void setup(){
 
 void loop(){
   hub.tick();
+   if (ota.tick()) {
+        Serial.println((int)ota.getError());
+    }
 
   static GH::Timer tmr(1000);                    //запускаем таймер
   if(tmr){
