@@ -73,15 +73,19 @@ void build(gh::Builder& b){
 
 void setup(){
   Serial.begin(74880);
+  Serial.println("");
   Serial.println("Hello");
+  Serial.println("ПОЕХАЛИ!");
+
   pinMode(led, OUTPUT);
   digitalWrite(led, HIGH);
-  Serial.println("ПОЕХАЛИ!");
+  
   setup_wifi();
 
   hub.mqtt.config(mqtt_server, mqtt_port, mqtt_user, mqtt_password);
   
   hub.setVersion("Srvrn1/Lipa@v1.2");
+  
   hub.onUnix(onunix);
   hub.onBuild(build);               // подключаем билдер
   hub.begin();   
