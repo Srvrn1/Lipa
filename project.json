@@ -8,7 +8,7 @@
       "chipFamily": "ESP8266",
       "parts": [
         {
-          "path": "https://github.com/Srvrn1/Lipa/raw/refs/heads/main/bin/firmware.bin",
+          "path": "https://github.com/Srvrn1/Lipa/tree/0e7b738273cb36c20647f1484af6e85d4b59400b/bin",
           "offset": 0
         }
       ]
