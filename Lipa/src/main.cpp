@@ -15,7 +15,7 @@ uint8_t sw_stat;            //положение переключателя
 GyverHub hub("MyDev", "Липовка", "f0ad");  // имя сети, имя устройства, иконка
 WiFiClient espClient;
 
-AutoOTA ota("v1.2", "Srvrn1/Lipa");
+AutoOTA ota("v1.1", "Srvrn1/Lipa");
 
 
 ///   WI-FI  ///////////
@@ -79,6 +79,9 @@ void setup(){
   Serial.println("");
   Serial.println("Hello");
   Serial.println("ПОЕХАЛИ!");
+  Serial.println();
+  Serial.print("Version ");
+  Serial.println(ota.version());
 
   pinMode(led, OUTPUT);
   digitalWrite(led, HIGH);
@@ -90,9 +93,10 @@ void setup(){
     if (ota.checkUpdate(&ver, &notes)) {
         Serial.println(ver);
         Serial.println(notes);
+        Serial.println("UPDATE okkk");
         ota.update();
     }
- // hub.setVersion("Srvrn1/Lipa@v1.2");
+ 
   
   hub.onUnix(onunix);
   hub.onBuild(build);               // подключаем билдер
