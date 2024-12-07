@@ -17,10 +17,10 @@ GyverHub hub("MyDev", "Липовка", "f0ad");  // имя сети, имя у�
 WiFiClient espClient;
 
 ///   WI-FI  ///////////
-//const char* ssid = "RT-WIFI-0FBE";
-//const char* password = "YeNu5VAyeY";
-const char* ssid = "srvrn";
-const char* password = "2155791975";
+const char* ssid = "RT-WIFI-0FBE";
+const char* password = "YeNu5VAyeY";
+// char* ssid = "srvrn";
+//const char* password = "2155791975";
 
 //   MQTT  /////////////
 const char* mqtt_server = "m4.wqtt.ru";
