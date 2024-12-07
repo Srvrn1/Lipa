@@ -1,3 +1,5 @@
+//версия 1.5 
+
 #include <Arduino.h>
 #include <GyverHub.h>
 
@@ -58,11 +60,14 @@ void sw_f(){                      //функция вкл-выкл диода
 }
 
 void build(gh::Builder& b){
-  b.Time_(F("time"), &time_sist).label(F("время")).color(gh::Colors::Mint);
-  b.Display("Версия  1.2");
-  b.Display("УРРАА");
   if(b.beginRow()){
-    //b.Time_(F("time"), &time_sist).label(F("время")).color(gh::Colors::Mint);
+  b.Time_(F("time"), &time_sist).label(F("время")).color(gh::Colors::Mint);
+  b.Display(F("Версия  1.5")).label(F("Releases")).color(gh::Colors::Blue);
+  b.Display(F("инфа")).color(gh::Colors::Aqua);
+   b.endRow();
+  }
+
+  if(b.beginRow()){
     b.Time_(F("t_on"), &t_on).label(F("включить")).color(gh::Colors::Red).click();
     b.Time_(F("t_off"), &t_off).label(F("выкл")).color(gh::Colors::Green);
     b.Switch_(F("Swit"), &sw_stat).label(F("включатель")).attach(sw_f);
@@ -72,10 +77,10 @@ void build(gh::Builder& b){
 }
 
 void setup(){
-  Serial.begin(74880);
+  /*Serial.begin(74880);
   Serial.println("");
   Serial.println("Hello");
-  Serial.println("версия 1.2");
+  Serial.println("версия 1.5");*/
 
   pinMode(led, OUTPUT);
   digitalWrite(led, HIGH);
@@ -83,7 +88,7 @@ void setup(){
   setup_wifi();
 
   hub.mqtt.config(mqtt_server, mqtt_port, mqtt_user, mqtt_password);
-  hub.setVersion("Srvrn1/Lipa@1.2");
+  hub.setVersion("Srvrn1/Lipa@1.5");
   hub.onUnix(onunix);
   hub.onBuild(build);               // подключаем билдер
   hub.begin();   
