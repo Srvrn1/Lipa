@@ -1,4 +1,4 @@
-//версия 1.5 
+//версия 1.5.1
 
 #include <Arduino.h>
 #include <GyverHub.h>
@@ -17,10 +17,10 @@ GyverHub hub("MyDev", "Липовка", "f0ad");  // имя сети, имя у�
 WiFiClient espClient;
 
 ///   WI-FI  ///////////
-//const char* ssid = "RT-WIFI-0FBE";
-//const char* password = "YeNu5VAyeY";
-const char* ssid = "srvrn";
-const char* password = "2155791975";
+const char* ssid = "RT-WIFI-0FBE";
+const char* password = "YeNu5VAyeY";
+//const char* ssid = "srvrn";
+//const char* password = "2155791975";
 
 //   MQTT  /////////////
 const char* mqtt_server = "m4.wqtt.ru";
@@ -88,7 +88,7 @@ void setup(){
   setup_wifi();
 
   hub.mqtt.config(mqtt_server, mqtt_port, mqtt_user, mqtt_password);
-  hub.setVersion("Srvrn1/Lipa@1.5");
+  hub.setVersion("Srvrn1/Lipa@1.5.1");
   hub.onUnix(onunix);
   hub.onBuild(build);               // подключаем билдер
   hub.begin();   
