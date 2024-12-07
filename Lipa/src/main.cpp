@@ -1,7 +1,9 @@
 #include <Arduino.h>
 #include <GyverHub.h>
+#include <AutoOTA.h>
 
 #define led 2
+String ver, notes;
 
 ///////////////=====================================
 uint32_t time_sist;         //время системы
@@ -10,6 +12,7 @@ uint32_t  t_off;            //время выкл
 uint8_t sw_stat;            //положение переключателя
 
 //////////////======================================
+AutoOTA ota("1.0", "Srvrn1/Lipa");
 
 GyverHub hub("MyDev", "Липовка", "f0ad");  // имя сети, имя устройства, иконка
 WiFiClient espClient;
@@ -55,11 +58,18 @@ void setup_wifi() {
 
 void sw_f(){                      //функция вкл-выкл диода
   digitalWrite(led, !sw_stat);
+  if (ota.checkUpdate(&ver, &notes)) {
+        Serial.println(ver);
+        Serial.println(notes);
+        ota.update();
+       // ota.updateNow();
+    }
+    else Serial.println("ХУЙ");
 }
 
 void build(gh::Builder& b){
   b.Time_(F("time"), &time_sist).label(F("время")).color(gh::Colors::Mint);
-  b.Display("Версия  1.2");
+  b.Display("Версия  1.0");
   if(b.beginRow()){
     //b.Time_(F("time"), &time_sist).label(F("время")).color(gh::Colors::Mint);
     b.Time_(F("t_on"), &t_on).label(F("включить")).color(gh::Colors::Red).click();
@@ -91,6 +101,10 @@ void setup(){
 
 void loop(){
   hub.tick();
+    if (ota.tick()) {
+      Serial.print("ERROR ");
+      Serial.println((int)ota.getError());
+    }
 
   static GH::Timer tmr(1000);                    //запускаем таймер
   if(tmr){
