@@ -1,6 +1,5 @@
 #include <Arduino.h>
 #include <GyverHub.h>
-#include <AutoOTA.h>
 
 #define led 2
 
@@ -14,9 +13,6 @@ uint8_t sw_stat;            //положение переключателя
 
 GyverHub hub("MyDev", "Липовка", "f0ad");  // имя сети, имя устройства, иконка
 WiFiClient espClient;
-
-AutoOTA ota("v1.1", "Srvrn1/Lipa");
-
 
 ///   WI-FI  ///////////
 //const char* ssid = "RT-WIFI-0FBE";
@@ -63,7 +59,7 @@ void sw_f(){                      //функция вкл-выкл диода
 
 void build(gh::Builder& b){
   b.Time_(F("time"), &time_sist).label(F("время")).color(gh::Colors::Mint);
-  b.Display("Версия  1.1");
+  b.Display("Версия  1.2");
   if(b.beginRow()){
     //b.Time_(F("time"), &time_sist).label(F("время")).color(gh::Colors::Mint);
     b.Time_(F("t_on"), &t_on).label(F("включить")).color(gh::Colors::Red).click();
@@ -79,9 +75,6 @@ void setup(){
   Serial.println("");
   Serial.println("Hello");
   Serial.println("ПОЕХАЛИ!");
-  Serial.println();
-  Serial.print("Version ");
-  Serial.println(ota.version());
 
   pinMode(led, OUTPUT);
   digitalWrite(led, HIGH);
@@ -89,15 +82,7 @@ void setup(){
   setup_wifi();
 
   hub.mqtt.config(mqtt_server, mqtt_port, mqtt_user, mqtt_password);
-      String ver, notes;
-    if (ota.checkUpdate(&ver, &notes)) {
-        Serial.println(ver);
-        Serial.println(notes);
-        Serial.println("UPDATE okkk");
-        ota.update();
-    }
- 
-  
+  hub.setVersion("Srvrn1/Lipa@1.2");
   hub.onUnix(onunix);
   hub.onBuild(build);               // подключаем билдер
   hub.begin();   
@@ -106,9 +91,6 @@ void setup(){
 
 void loop(){
   hub.tick();
-   if (ota.tick()) {
-        Serial.println((int)ota.getError());
-    }
 
   static GH::Timer tmr(1000);                    //запускаем таймер
   if(tmr){
