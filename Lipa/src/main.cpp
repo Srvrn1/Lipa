@@ -1,4 +1,4 @@
-//версия 1.5.1
+//версия 1.5.2
 
 #include <Arduino.h>
 #include <GyverHub.h>
@@ -17,10 +17,10 @@ GyverHub hub("MyDev", "Липовка", "f0ad");  // имя сети, имя у�
 WiFiClient espClient;
 
 ///   WI-FI  ///////////
-const char* ssid = "RT-WIFI-0FBE";
-const char* password = "YeNu5VAyeY";
-//const char* ssid = "srvrn";
-//const char* password = "2155791975";
+//const char* ssid = "RT-WIFI-0FBE";
+//const char* password = "YeNu5VAyeY";
+const char* ssid = "srvrn";
+const char* password = "2155791975";
 
 //   MQTT  /////////////
 const char* mqtt_server = "m4.wqtt.ru";
@@ -61,9 +61,9 @@ void sw_f(){                      //функция вкл-выкл диода
 
 void build(gh::Builder& b){
   if(b.beginRow()){
-  b.Time_(F("time"), &time_sist).label(F("время")).color(gh::Colors::Mint);
-  b.Display(F("Версия  1.5")).label(F("Releases")).color(gh::Colors::Blue);
-  b.Display(F("инфа")).color(gh::Colors::Aqua);
+  b.Time_(F("time"), &time_sist).label(F("время")).color(gh::Colors::Blue);
+  b.Display(F("Версия  1.5.2")).label(F("Releases")).color(gh::Colors::Blue);
+  b.Display(F("инфа")).color(gh::Colors::Blue);
    b.endRow();
   }
 
@@ -88,7 +88,7 @@ void setup(){
   setup_wifi();
 
   hub.mqtt.config(mqtt_server, mqtt_port, mqtt_user, mqtt_password);
-  hub.setVersion("Srvrn1/Lipa@1.5.1");
+  hub.setVersion("Srvrn1/Lipa@1.5.2");
   hub.onUnix(onunix);
   hub.onBuild(build);               // подключаем билдер
   hub.begin();   
