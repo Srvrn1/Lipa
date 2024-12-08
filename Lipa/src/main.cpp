@@ -75,7 +75,7 @@ void build(gh::Builder& b){
   }
   if(b.beginRow()){
     b.Display(F("проверка")).color(gh::Colors::Yellow);
-    b.Display(F("что-нибудь")).color(gh::Colors::Orange);
+    b.Display(F("принудиловка")).color(gh::Colors::Orange);
     b.endRow();
   }
 
