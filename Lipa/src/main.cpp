@@ -62,7 +62,7 @@ void sw_f(){                      //функция вкл-выкл диода
 void build(gh::Builder& b){
   if(b.beginRow()){
   b.Time_(F("time"), &time_sist).label(F("время")).color(gh::Colors::Blue);
-  b.Display(F("V1.5.6")).label(F("Releases")).color(gh::Colors::Blue);
+  b.Display(F("V1.5.7")).label(F("Releases")).color(gh::Colors::Blue);
   b.Display(F("инфа")).color(gh::Colors::Blue);
    b.endRow();
   }
@@ -76,6 +76,7 @@ void build(gh::Builder& b){
   if(b.beginRow()){
     b.Display(F("проверка")).color(gh::Colors::Yellow);
     b.Display(F("принудиловка")).color(gh::Colors::Orange);
+    b.Switch().label(F("М/Ж"));
     b.endRow();
   }
 
@@ -93,7 +94,7 @@ void setup(){
   setup_wifi();
 
   hub.mqtt.config(mqtt_server, mqtt_port, mqtt_user, mqtt_password);
-  hub.setVersion("Srvrn1/Lipa@1.5.6");
+  hub.setVersion("Srvrn1/Lipa@1.5.7");
   hub.onUnix(onunix);
   hub.onBuild(build);               // подключаем билдер
   hub.begin();   
