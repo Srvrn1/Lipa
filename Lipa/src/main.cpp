@@ -74,9 +74,9 @@ void build(gh::Builder& b){
     b.endRow();
   }
   if(b.beginRow()){
-    b.Display(F("проверка")).color(gh::Colors::Yellow);
-    b.Display(F("принудиловка")).color(gh::Colors::Orange);
-    b.Switch().label(F("М/Ж"));
+    b.Display_(F("hvs"), (F("ex"))).color(gh::Colors::Aqua);
+    b.Display_(F("gvs"), (F("ex"))).color(gh::Colors::Orange);
+    b.Switch_(F("mg")).label(F("М/Ж")).color(gh::Colors::Red);
     b.endRow();
   }
 
