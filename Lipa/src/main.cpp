@@ -62,20 +62,21 @@ void sw_f(){                      //функция вкл-выкл диода
 void build(gh::Builder& b){
   if(b.beginRow()){
   b.Time_(F("time"), &time_sist).label(F("время")).color(gh::Colors::Blue);
-  b.Display(F("V1.5.7")).label(F("Releases")).color(gh::Colors::Blue);
-  b.Display(F("инфа")).color(gh::Colors::Blue);
+  b.Display(F("V1.5.8")).label(F("Releases")).color(gh::Colors::Blue);
+  b.Display_(F("vers")).color(gh::Colors::Blue);            //сюда шлет свою версию прибор из туалета
+  b.Button_(F("supd"));                                    //по нажатию, все удаленные устройства ищут обновы.
    b.endRow();
   }
 
   if(b.beginRow()){
-    b.Time_(F("t_on"), &t_on).label(F("включить")).color(gh::Colors::Red).click();
+    b.Time_(F("t_on"), &t_on).label(F("вкл")).color(gh::Colors::Red).click();
     b.Time_(F("t_off"), &t_off).label(F("выкл")).color(gh::Colors::Green);
     b.Switch_(F("Swit"), &sw_stat).label(F("включатель")).attach(sw_f);
     b.endRow();
   }
   if(b.beginRow()){
-    b.Display_(F("hvs"), (F("ex"))).color(gh::Colors::Aqua);
-    b.Display_(F("gvs"), (F("ex"))).color(gh::Colors::Orange);
+    b.Display_(F("hvs")).label(F("ХВС")).color(gh::Colors::Aqua);
+    b.Display_(F("gvs")).label(F("ГВС")).color(gh::Colors::Orange);
     b.Switch_(F("mg")).label(F("М/Ж")).color(gh::Colors::Red);
     b.endRow();
   }
@@ -94,7 +95,7 @@ void setup(){
   setup_wifi();
 
   hub.mqtt.config(mqtt_server, mqtt_port, mqtt_user, mqtt_password);
-  hub.setVersion("Srvrn1/Lipa@1.5.7");
+  hub.setVersion("Srvrn1/Lipa@1.5.8");
   hub.onUnix(onunix);
   hub.onBuild(build);               // подключаем билдер
   hub.begin();   
