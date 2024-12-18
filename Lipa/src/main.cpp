@@ -9,7 +9,9 @@
 uint32_t time_sist;         //время системы
 uint32_t  t_on;             //время вкл
 uint32_t  t_off;            //время выкл
-uint8_t sw_stat;            //положение переключателя
+uint8_t sw_stat;            //положение переключателя 
+uint8_t sw_mg;              //положение переключателя в туалете
+char*  vers_mg;             //версия прошивы туалетного контроллера
 
 //////////////======================================
 
@@ -62,9 +64,9 @@ void sw_f(){                      //функция вкл-выкл диода
 void build(gh::Builder& b){
   if(b.beginRow()){
   b.Time_(F("time"), &time_sist).label(F("время")).color(gh::Colors::Blue);
-  b.Display(F("V1.5.8")).label(F("Releases")).color(gh::Colors::Blue);
-  b.Display_(F("vers")).color(gh::Colors::Blue);            //сюда шлет свою версию прибор из туалета
-  b.Button_(F("supd"));                                    //по нажатию, все удаленные устройства ищут обновы.
+  b.Display(F("V1.5.9")).label(F("Releases")).color(gh::Colors::Blue);
+  b.Display_(F("vers"), &vers_mg).color(gh::Colors::Blue);             //сюда шлет свою версию прибор из туалета
+  b.Button_(F("supd"));                                                //по нажатию, все удаленные устройства ищут обновы.
    b.endRow();
   }
 
@@ -77,7 +79,7 @@ void build(gh::Builder& b){
   if(b.beginRow()){
     b.Display_(F("hvs")).label(F("ХВС")).color(gh::Colors::Aqua);
     b.Display_(F("gvs")).label(F("ГВС")).color(gh::Colors::Orange);
-    b.Switch_(F("mg")).label(F("М/Ж")).color(gh::Colors::Red);
+    b.Switch_(F("mg"), &sw_mg).label(F("М/Ж")).color(gh::Colors::Red);
     b.endRow();
   }
 
@@ -95,7 +97,7 @@ void setup(){
   setup_wifi();
 
   hub.mqtt.config(mqtt_server, mqtt_port, mqtt_user, mqtt_password);
-  hub.setVersion("Srvrn1/Lipa@1.5.8");
+  hub.setVersion("Srvrn1/Lipa@1.5.9");
   hub.onUnix(onunix);
   hub.onBuild(build);               // подключаем билдер
   hub.begin();   
