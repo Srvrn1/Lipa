@@ -3,8 +3,8 @@
 #include <Arduino.h>
 #include <GyverHub.h>
 
-#define led 2
-#define press 1
+#define led 2            //D4
+#define press 4          //D2
 
 ///////////////=====================================
 uint32_t time_sist;         //время системы
@@ -35,7 +35,7 @@ const char* mqtt_user = "u_5A3C2X";
 const char* mqtt_password = "HilZPRjD";
 
 void onunix(uint32_t stamp) {                //получаем дату время. ра6отает!!!
-    time_sist = (stamp + 32400) % 86400;    //получаем только время и корректируем часовой пояс
+    time_sist = (stamp + 10800) % 86400;    //получаем только время и корректируем часовой пояс
 }
 
 void setup_wifi() {
@@ -61,10 +61,10 @@ void setup_wifi() {
   Serial.println(WiFi.localIP());
 }
 
-void sw_f(){                      //функция вкл-выкл диода
+void sw_f(){                      //функция вкл-выкл свет аквариум
   digitalWrite(led, sw_stat);
 }
-void sw_presss(){
+void sw_presss(){                 //компрессор
   digitalWrite(press, sw_press);
 }
 
@@ -81,7 +81,7 @@ void build(gh::Builder& b){
     b.Time_(F("t_on"), &t_on).label(F("вкл")).color(gh::Colors::Red).click();
     b.Time_(F("t_off"), &t_off).label(F("выкл")).color(gh::Colors::Green);
     b.Switch_(F("Swit"), &sw_stat).label(F("акваСвет")).attach(sw_f);
-    b.Switch_(F("Swit_press"), &sw_stat).label(F("компрессор")).attach(sw_presss);
+    b.Switch_(F("Swit_press"), &sw_press).label(F("компрессор")).attach(sw_presss);
     b.endRow();
   }
   if(b.beginRow()){
@@ -97,7 +97,7 @@ void setup(){
  /* Serial.begin(74880);
   Serial.println("");
   Serial.println("Hello");
-  Serial.println("версия 1.6");*/
+  Serial.println("версия 1.6.2");*/
 
   pinMode(led, OUTPUT);
   digitalWrite(led, LOW);
@@ -108,7 +108,7 @@ void setup(){
   setup_wifi();
 
   hub.mqtt.config(mqtt_server, mqtt_port, mqtt_user, mqtt_password);
-  hub.setVersion("Srvrn1/Lipa@1.6.1");
+  hub.setVersion("Srvrn1/Lipa@1.6.2");
   hub.onUnix(onunix);
   hub.onBuild(build);               // подключаем билдер
   hub.begin();   
