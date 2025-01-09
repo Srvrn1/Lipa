@@ -81,7 +81,7 @@ void build(gh::Builder& b){
     b.Time_(F("t_on"), &t_on).label(F("вкл")).color(gh::Colors::Red).click();
     b.Time_(F("t_off"), &t_off).label(F("выкл")).color(gh::Colors::Green);
     b.Switch_(F("Swit"), &sw_stat).label(F("акваСвет")).attach(sw_f);
-    b.Switch_(F("Swit"), &sw_stat).label(F("компрессор")).attach(sw_presss);
+    b.Switch_(F("Swit_press"), &sw_stat).label(F("компрессор")).attach(sw_presss);
     b.endRow();
   }
   if(b.beginRow()){
