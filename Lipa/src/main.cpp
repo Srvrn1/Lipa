@@ -62,10 +62,10 @@ void setup_wifi() {
 }
 
 void sw_f(){                      //функция вкл-выкл диода
-  digitalWrite(led, !sw_stat);
+  digitalWrite(led, sw_stat);
 }
 void sw_presss(){
-  digitalWrite(press,!sw_press);
+  digitalWrite(press, sw_press);
 }
 
 void build(gh::Builder& b){
