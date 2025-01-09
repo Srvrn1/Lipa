@@ -7,21 +7,23 @@
 
 ///////////////=====================================
 uint32_t time_sist;         //время системы
-uint32_t  t_on;             //время вкл
-uint32_t  t_off;            //время выкл
-uint8_t sw_stat;            //положение переключателя 
+uint32_t  t_on;             //время вкл аквариум
+uint32_t  t_off;            //время выкл аквариум
+uint8_t sw_stat;            //положение перекл аквариума
 uint8_t sw_mg;              //положение переключателя в туалете
-char*  vers_mg;             //версия прошивы туалетного контроллера
+const char*  vers_mg = "0";             //версия прошивы туалетного контроллера
 
 //////////////======================================
 
-GyverHub hub("MyDev", "Липовка", "f0ad");  // имя сети, имя устройства, иконка
+GyverHub hub("MyDev", "ДОМ", "f0ad");  // имя сети, имя устройства, иконка
 WiFiClient espClient;
 
 ///   WI-FI  ///////////
 //const char* ssid = "RT-WiFi-0FBE";
 //const char* password = "YeNu5VAyeY";
-const char* ssid = "srvrn";
+//const char* ssid = "srvrn";
+//const char* password = "2155791975";
+const char* ssid = "Dnlvrn";
 const char* password = "2155791975";
 
 //   MQTT  /////////////
@@ -65,8 +67,8 @@ void build(gh::Builder& b){
   if(b.beginRow()){
   b.Time_(F("time"), &time_sist).label(F("время")).color(gh::Colors::Blue);
   b.Display(F("V1.5.9")).label(F("Releases")).color(gh::Colors::Blue);
-  b.Display_(F("vers"), &vers_mg).color(gh::Colors::Blue);             //сюда шлет свою версию прибор из туалета
-  b.Button_(F("supd"));                                                //по нажатию, все удаленные устройства ищут обновы.
+  b.Display_(F("vers")).color(gh::Colors::Blue);             //сюда шлет свою версию прибор из туалета
+  b.Button_(F("supd"));                                               //по нажатию, все удаленные устройства ищут обновы.
    b.endRow();
   }
 
@@ -86,10 +88,10 @@ void build(gh::Builder& b){
 }
 
 void setup(){
-  /*Serial.begin(74880);
+  Serial.begin(74880);
   Serial.println("");
   Serial.println("Hello");
-  Serial.println("версия 1.5");*/
+  Serial.println("версия 1.6");
 
   pinMode(led, OUTPUT);
   digitalWrite(led, HIGH);
@@ -97,7 +99,7 @@ void setup(){
   setup_wifi();
 
   hub.mqtt.config(mqtt_server, mqtt_port, mqtt_user, mqtt_password);
-  hub.setVersion("Srvrn1/Lipa@1.5.9");
+  hub.setVersion("Srvrn1/Lipa@1.6");
   hub.onUnix(onunix);
   hub.onBuild(build);               // подключаем билдер
   hub.begin();   
