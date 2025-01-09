@@ -4,12 +4,14 @@
 #include <GyverHub.h>
 
 #define led 2
+#define press 1
 
 ///////////////=====================================
 uint32_t time_sist;         //время системы
 uint32_t  t_on;             //время вкл аквариум
 uint32_t  t_off;            //время выкл аквариум
 uint8_t sw_stat;            //положение перекл аквариума
+uint8_t sw_press;           //положение переключателя компрессора
 uint8_t sw_mg;              //положение переключателя в туалете
 const char*  vers_mg = "0";             //версия прошивы туалетного контроллера
 
@@ -62,6 +64,9 @@ void setup_wifi() {
 void sw_f(){                      //функция вкл-выкл диода
   digitalWrite(led, !sw_stat);
 }
+void sw_presss(){
+  digitalWrite(press,!sw_press);
+}
 
 void build(gh::Builder& b){
   if(b.beginRow()){
@@ -75,7 +80,8 @@ void build(gh::Builder& b){
   if(b.beginRow()){
     b.Time_(F("t_on"), &t_on).label(F("вкл")).color(gh::Colors::Red).click();
     b.Time_(F("t_off"), &t_off).label(F("выкл")).color(gh::Colors::Green);
-    b.Switch_(F("Swit"), &sw_stat).label(F("включатель")).attach(sw_f);
+    b.Switch_(F("Swit"), &sw_stat).label(F("акваСвет")).attach(sw_f);
+    b.Switch_(F("Swit"), &sw_stat).label(F("компрессор")).attach(sw_presss);
     b.endRow();
   }
   if(b.beginRow()){
@@ -88,18 +94,21 @@ void build(gh::Builder& b){
 }
 
 void setup(){
-  Serial.begin(74880);
+ /* Serial.begin(74880);
   Serial.println("");
   Serial.println("Hello");
-  Serial.println("версия 1.6");
+  Serial.println("версия 1.6");*/
 
   pinMode(led, OUTPUT);
-  digitalWrite(led, HIGH);
+  digitalWrite(led, LOW);
+
+  pinMode(press, OUTPUT);
+  digitalWrite(press, LOW);
   
   setup_wifi();
 
   hub.mqtt.config(mqtt_server, mqtt_port, mqtt_user, mqtt_password);
-  hub.setVersion("Srvrn1/Lipa@1.6");
+  hub.setVersion("Srvrn1/Lipa@1.6.1");
   hub.onUnix(onunix);
   hub.onBuild(build);               // подключаем билдер
   hub.begin();   
