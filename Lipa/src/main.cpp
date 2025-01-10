@@ -35,7 +35,7 @@ const char* mqtt_user = "u_5A3C2X";
 const char* mqtt_password = "HilZPRjD";
 
 void onunix(uint32_t stamp) {                //получаем дату время. ра6отает!!!
-    time_sist = (stamp + 10800) % 86400;    //получаем только время и корректируем часовой пояс
+    time_sist = (stamp + 10800) % 86400;    //получаем только время и корректируем часовой пояс +3 часа
 }
 
 void setup_wifi() {
@@ -71,7 +71,7 @@ void sw_presss(){                 //компрессор
 void build(gh::Builder& b){
   if(b.beginRow()){
   b.Time_(F("time"), &time_sist).label(F("время")).color(gh::Colors::Blue);
-  b.Display(F("V1.5.9")).label(F("Releases")).color(gh::Colors::Blue);
+  b.Display(F("V1.6.3")).label(F("Releases")).color(gh::Colors::Blue);
   b.Display_(F("vers")).color(gh::Colors::Blue);             //сюда шлет свою версию прибор из туалета
   b.Button_(F("supd"));                                               //по нажатию, все удаленные устройства ищут обновы.
    b.endRow();
@@ -108,7 +108,7 @@ void setup(){
   setup_wifi();
 
   hub.mqtt.config(mqtt_server, mqtt_port, mqtt_user, mqtt_password);
-  hub.setVersion("Srvrn1/Lipa@1.6.2");
+  hub.setVersion("Srvrn1/Lipa@1.6.3");
   hub.onUnix(onunix);
   hub.onBuild(build);               // подключаем билдер
   hub.begin();   
@@ -127,7 +127,11 @@ void loop(){
     if(time_sist == t_on){                                 //6удильник включаем Switch
       sw_stat = 1;
       sw_f();
+      sw_press = 1;
+      sw_presss();
+
       hub.sendUpdate(F("Swit"));
+      hub.sendUpdate(F("Swit_press"));
     }
     if(time_sist == t_off){
       sw_stat = 0;
