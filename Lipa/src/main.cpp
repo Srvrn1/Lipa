@@ -62,17 +62,17 @@ void setup_wifi() {
 }
 
 void sw_f(){                      //функция вкл-выкл свет аквариум
-  digitalWrite(led, sw_stat);
+  digitalWrite(led, !sw_stat);
 }
 void sw_presss(){                 //компрессор
-  digitalWrite(press, sw_press);
+  digitalWrite(press, !sw_press);
 }
 
 void build(gh::Builder& b){
   if(b.beginRow()){
   b.Time_(F("time"), &time_sist).label(F("время")).color(gh::Colors::Blue);
-  b.Display(F("V1.6.3")).label(F("Releases")).color(gh::Colors::Blue);
-  b.Display_(F("vers")).color(gh::Colors::Blue);             //сюда шлет свою версию прибор из туалета
+  b.Display(F("V1.6.4")).label(F("Releases")).color(gh::Colors::Blue);
+  b.Display_(F("vers")).color(gh::Colors::Blue);                      //сюда шлет свою версию прибор из туалета
   b.Button_(F("supd"));                                               //по нажатию, все удаленные устройства ищут обновы.
    b.endRow();
   }
@@ -108,9 +108,9 @@ void setup(){
   setup_wifi();
 
   hub.mqtt.config(mqtt_server, mqtt_port, mqtt_user, mqtt_password);
-  hub.setVersion("Srvrn1/Lipa@1.6.3");
+  hub.setVersion("Srvrn1/Lipa@1.6.4");
   hub.onUnix(onunix);
-  hub.onBuild(build);               // подключаем билдер
+  hub.onBuild(build);                        // подключаем билдер
   hub.begin();   
   
 }
@@ -136,6 +136,8 @@ void loop(){
     if(time_sist == t_off){
       sw_stat = 0;
       sw_f();
+      sw_press = 0;
+      sw_presss();
       hub.sendUpdate(F("Swit"));
     }
   }
