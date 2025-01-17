@@ -122,6 +122,12 @@ void setup(){
 
   pinMode(press, OUTPUT);
   digitalWrite(press, LOW);
+
+  pinMode(led_brite, OUTPUT);
+  digitalWrite(led_brite, LOW);
+
+  pinMode(led_beck, OUTPUT);
+  digitalWrite(led_beck, LOW);
   
   setup_wifi();
 
