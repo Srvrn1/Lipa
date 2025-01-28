@@ -75,10 +75,10 @@ void sw_presss(){                 //компрессор
   digitalWrite(press, !sw_press);
 }
 void sw_svet(){
-  digitalWrite(led_brite, sw_lbstate);
+  digitalWrite(led_brite, !sw_lbstate);
 }
 void sw_becksvet(){
-  digitalWrite(led_beck,sw_lbeckstate);
+  digitalWrite(led_beck, !sw_lbeckstate);
 }
 
 void build(gh::Builder& b){
@@ -155,6 +155,7 @@ void loop(){
     time_sist++;
     if(time_sist >= 86400) time_sist = 0;                   //время в Unix формате с6расываем в 00 часов
     hub.sendUpdate(F("time"));
+    Serial.println("ok");
 
     if(time_sist == t_on){                                 //6удильник включаем Switch
       sw_stat = 1;
