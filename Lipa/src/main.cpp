@@ -16,8 +16,8 @@ uint8_t sw_stat;            //положение перекл аквариума
 uint8_t sw_press;           //положение переключателя компрессора
 uint8_t sw_lbstate;         // точечные светильники
 uint8_t sw_lbeckstate;      //выключатель подсветки
-//uint8_t Rsw_svet;           //выкл Риты
-//uint8_t Rsw_roz;            //ритина розетка
+uint8_t Rsw_svet;           //выкл Риты
+uint8_t Rsw_roz;            //ритина розетка
 
 uint8_t sw_mg;              //положение переключателя в туалете
 const char*  vers_mg = "0";             //версия прошивы туалетного контроллера
@@ -85,7 +85,7 @@ void build(gh::Builder& b){
   if(b.beginRow()){
   b.Time_(F("time"), &time_sist).label(F("время")).color(gh::Colors::Blue);
   b.Display(F("V1.6.6")).label(F("Releases")).color(gh::Colors::Blue);
-  b.Display_(F("vers")).color(gh::Colors::Blue);                      //сюда шлет свою версию прибор из туалета
+  b.Display_(F("vers")).label(F("версия")). color(gh::Colors::Blue);                      //сюда шлет свою версию прибор из туалета
   b.Button_(F("supd"));                                               //по нажатию, все удаленные устройства ищут обновы.
   b.endRow();
   }
@@ -113,8 +113,8 @@ void build(gh::Builder& b){
 
   b.Title(F("Рита"));
   if(b.beginRow()){
-    b.Switch_(F("Rsvet")).label(F("парта"));    //.attach(sw_svet);
-    b.Switch_(F("Rroz")).label(F("розетка"));    //.attach(sw_becksvet);
+    b.Switch_(F("Rsvet"), &Rsw_svet).label(F("парта"));    //.attach(sw_svet);
+    b.Switch_(F("Rroz"), &Rsw_roz).label(F("розетка"));    //.attach(sw_becksvet);
     b.endRow();
   }
 }
@@ -123,7 +123,7 @@ void setup(){
   Serial.begin(74880);
   Serial.println("");
   Serial.println("Hello");
-  Serial.println("версия 1.6.6");
+  Serial.println("версия 1.6.7");
 
   pinMode(led, OUTPUT);
   digitalWrite(led, LOW);
@@ -140,7 +140,7 @@ void setup(){
   setup_wifi();
 
   hub.mqtt.config(mqtt_server, mqtt_port, mqtt_user, mqtt_password);
-  hub.setVersion("Srvrn1/Lipa@1.6.6");
+  hub.setVersion("Srvrn1/Lipa@1.6.7");
   hub.onUnix(onunix);
   hub.onBuild(build);                        // подключаем билдер
   hub.begin();   
